@@ -1,0 +1,3 @@
+- Add Signin option with Google
+- Signin callback issue to be resolve
+- Cards design and setup finally.
