@@ -74,7 +74,7 @@ const page = () => {
         const response: AxiosResponse = await axios.get<ApiResponse>(
           "/api/get-messages"
         );
-
+        console.log(response.data);
         setMessages(response.data.messageList ?? []);
 
         if (refresh) {
