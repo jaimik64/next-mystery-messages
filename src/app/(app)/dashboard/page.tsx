@@ -106,7 +106,7 @@ const page = () => {
 
     fetchMessages();
     fetchAcceptMessage();
-  }, [session, setValue, fetchAcceptMessage, fetchMessages]);
+  }, [session, setValue, fetchAcceptMessage]);
 
   // Handle switch change
   const handleSwitchChange = async () => {
