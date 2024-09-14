@@ -38,7 +38,7 @@ const page = () => {
   const [isUserAcceptingMessages, setIsUserAcceptingMessages] = useState<
     boolean | undefined
   >(undefined);
-  const toast = useToast();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
