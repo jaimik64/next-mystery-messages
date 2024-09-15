@@ -17,12 +17,12 @@ import { Separator } from "@radix-ui/react-separator";
 import axios, { AxiosError } from "axios";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import Link from "next/link";
 
-const specialChar: string = "";
+const specialChar: string = "||";
 
 const parseStringMessages = (messageString: string): string[] => {
   return messageString.split(specialChar);
@@ -38,7 +38,7 @@ const page = () => {
   const [isUserAcceptingMessages, setIsUserAcceptingMessages] = useState<
     boolean | undefined
   >(undefined);
-  const { toast } = useToast();
+  const {toast} = useToast();
 
   const form = useForm<z.infer<typeof messageSchema>>({
     resolver: zodResolver(messageSchema),
@@ -52,7 +52,7 @@ const page = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSuggestLoading, setIsSuggestLoading] = useState<boolean>(false);
-  const [suggestedMessages, setSuggestedMessages] = useState<string>("");
+  const [suggestedMessages, setSuggestedMessages] = useState<string>(initialMessage);
 
   const onSubmit = async (data: z.infer<typeof messageSchema>) => {
     setIsLoading(true);
@@ -62,11 +62,13 @@ const page = () => {
         username,
       });
 
-      toast({
-        title: response.data.message,
-        variant: "default",
-      });
       form.reset({ ...form.getValues(), content: "" });
+      if(response.data.success) {
+        toast({
+          title: "Message sent successfully"
+        });  
+      }
+      
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
       toast({
@@ -80,7 +82,7 @@ const page = () => {
     }
   };
 
-  const fetchSuggestedMessages = async () => {
+  const fetchSuggestedMessages = useCallback(async () => {
     if (isUserAcceptingMessages === undefined) return;
     setIsSuggestLoading(true);
     try {
@@ -91,7 +93,7 @@ const page = () => {
     } catch (error) {
       setIsSuggestLoading(false);
     }
-  };
+  }, [isUserAcceptingMessages, isSuggestLoading]);
 
   const checkUserAcceptingMessages = async () => {
     try {
@@ -105,7 +107,7 @@ const page = () => {
   useEffect(() => {
     checkUserAcceptingMessages();
     fetchSuggestedMessages();
-  });
+  }, [isUserAcceptingMessages, isSuggestLoading, suggestedMessages, fetchSuggestedMessages, toast]);
 
   if (isUserAcceptingMessages === undefined) {
     return (
