@@ -100,14 +100,14 @@ const page = () => {
       const response = await axios.post("/api/get-user-accepting-messages", {
         username: params.username,
       });
-      setIsUserAcceptingMessages(response.data.success ?? false);
+      setIsUserAcceptingMessages(response.data.success ?? false);  
+      fetchSuggestedMessages();
     } catch (error) {}
   };
 
   useEffect(() => {
     checkUserAcceptingMessages();
-    fetchSuggestedMessages();
-  }, [isUserAcceptingMessages, isSuggestLoading, suggestedMessages, fetchSuggestedMessages, toast]);
+  }, [isUserAcceptingMessages, toast]);
 
   if (isUserAcceptingMessages === undefined) {
     return (
