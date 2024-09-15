@@ -181,14 +181,13 @@ const page = () => {
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {parseStringMessages(suggestedMessages).map((message, index) => (
-              <Button
+              <span
                 key={index}
-                variant="outline"
-                className="mb-2"
+                className="my-1 text-wrap text-center p-1 border border-black hover:cursor-pointer hover:bg-slate-500 hover:text-white rounded-lg shadow-lg"
                 onClick={() => handleMessageClick(message)}
               >
                 {message}
-              </Button>
+              </span>
             ))}
           </CardContent>
         </Card>
