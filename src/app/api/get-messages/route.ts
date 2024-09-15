@@ -11,7 +11,8 @@ export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
 
   const _user: User = session?.user as User;
-
+  console.log("Session User: " + JSON.stringify(_user));
+  
   if (!session || !session.user) {
     return Response.json(
       {
@@ -27,7 +28,7 @@ export async function GET(req: Request) {
   try {
     const user = await UserModel.aggregate([
       {
-        $match: { id: userId },
+        $match: { _id: userId },
       },
       {
         $unwind: "$messages",
