@@ -88,7 +88,7 @@ const page = () => {
     try {
       const response = await axios.post("/api/suggest-messages");
 
-      setSuggestedMessages(response.data.result.response.text());
+      setSuggestedMessages(response.data.response.candidates[0].content.parts[0].text ?? initialMessage);
       setIsSuggestLoading(false);
     } catch (error) {
       setIsSuggestLoading(false);
