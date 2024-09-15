@@ -31,10 +31,6 @@ const page = () => {
 
   const { data: session } = useSession();
 
-  if (!session || !session.user) {
-    return <div>Please login</div>;
-  }
-
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
@@ -63,7 +59,7 @@ const page = () => {
     } finally {
       setIsSwithcLoading(false);
     }
-  }, [setValue]);
+  }, [setValue, toast]);
 
   const fetchMessages = useCallback(
     async (refresh: boolean = false) => {
@@ -98,7 +94,7 @@ const page = () => {
         setIsLoading(false);
       }
     },
-    [setIsLoading, setMessages]
+    [setIsLoading, setMessages, toast]
   );
 
   useEffect(() => {
@@ -107,7 +103,7 @@ const page = () => {
       fetchAcceptMessage();
     }
 
-  }, [session, setValue, fetchAcceptMessage]);
+  }, [session, setValue,  fetchAcceptMessage, fetchMessages, toast]);
 
   // Handle switch change
   const handleSwitchChange = async () => {
@@ -133,7 +129,7 @@ const page = () => {
     }
   };
 
-   const copyToClipboard = () => {
+  const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
       title: "URL copied to clipboard",
@@ -141,6 +137,10 @@ const page = () => {
     });
   };
   
+  if (!session || !session.user) {
+    return <div>Please login</div>;
+  }
+
   const { username } = session?.user as User;
   const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
   const profileUrl = `${baseUrl}/u/${username}`;
