@@ -133,17 +133,17 @@ const page = () => {
     }
   };
 
-  const { username } = session?.user as User;
-  const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
-  const profileUrl = `${baseUrl}/u/${username}`;
-
-  const copyToClipboard = () => {
+   const copyToClipboard = () => {
     navigator.clipboard.writeText(profileUrl);
     toast({
       title: "URL copied to clipboard",
       description: "Profile URL copied to clipboard",
     });
   };
+  
+  const { username } = session?.user as User;
+  const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+  const profileUrl = `${baseUrl}/u/${username}`;
 
   return (
     <div className="my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
