@@ -102,10 +102,11 @@ const page = () => {
   );
 
   useEffect(() => {
-    if (!session || !session.user) return;
+    if (session?.user) {
+      fetchMessages();
+      fetchAcceptMessage();
+    }
 
-    fetchMessages();
-    fetchAcceptMessage();
   }, [session, setValue, fetchAcceptMessage]);
 
   // Handle switch change
