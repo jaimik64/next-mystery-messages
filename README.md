@@ -5,6 +5,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - bcryptjs
 - resend
 - zod
+- next
 
 ## Getting Started
 
